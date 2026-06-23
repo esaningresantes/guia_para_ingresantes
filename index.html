@@ -1,0 +1,1991 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía del Ingresante ESAN 2026-2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #020617; color: #e2e8f0; font-family: 'Montserrat', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .glass { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(148,163,184,0.3); }
+        .active-tab { background: #dc2626; color: #f9fafb; font-weight: bold; border-left: 4px solid #ffffff; }
+        ::-webkit-scrollbar { width: 6px; background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
+
+*{
+    box-sizing:border-box;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+table{
+    width:100%;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* Evita zoom raro en iPhone */
+input,
+select,
+textarea{
+    font-size:16px;
+}
+
+/* Mejora responsive en móviles */
+@media (max-width: 768px){
+
+    h1{
+        font-size:1.8rem !important;
+    }
+
+    h2{
+        font-size:1.5rem !important;
+    }
+
+    h3{
+        font-size:1.1rem !important;
+    }
+
+    .glass{
+        padding:1rem !important;
+    }
+
+}        
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row bg-slate-950 overflow-x-hidden" id="app">
+
+<!-- PANTALLA INICIAL -->
+<div id="overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+    
+    <div class="glass p-8 rounded-2xl w-full max-w-md text-center space-y-5 border border-slate-700 shadow-2xl">
+
+        <!-- TÍTULO -->
+        <div>
+            <h2 class="text-3xl text-white font-serif">
+                Guía para Ingresantes 26-2
+            </h2>
+
+            <p class="text-sm text-slate-400 mt-2">
+                Bienvenido(a) a la Universidad ESAN
+            </p>
+        </div>
+
+        <!-- INFORMACIÓN -->
+        <div class="bg-slate-900/70 p-4 rounded-xl text-left space-y-3">
+
+            <p class="text-sm text-slate-200 leading-relaxed">
+                La guía contiene información importante para el inicio de la vida universitaria.
+            </p>
+
+            <p class="text-sm text-slate-300 leading-relaxed">
+                En ella encontrarás información sobre matrícula, pagos, beneficios, convalidaciones, calendario académico y mucho más.
+            </p>
+
+            <p class="text-sm text-slate-300 leading-relaxed">
+                Revisa cuidadosamente la información y considera las indicaciones, procedimientos y plazos señalados.
+            </p>
+
+        </div>
+
+        <!-- DNI -->
+        <input 
+            type="text" 
+            id="dni" 
+            maxlength="8"
+            placeholder="Ingresa tu DNI"
+            class="w-full p-3 rounded-xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+
+        <!-- CHECK -->
+        <label class="flex items-start gap-3 text-sm text-slate-300 text-left">
+            <input type="checkbox" id="check" class="mt-1 accent-red-600">
+
+            <span>
+                Me comprometo a revisar y seguir la información contenida en la Guía para Ingresantes 2026-2.
+            </span>
+        </label>
+
+        <!-- BOTÓN -->
+        <button onclick="ingresar()" 
+            class="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-white font-semibold w-full shadow-lg">
+            Ingresar a la guía
+        </button>
+
+        <!-- ERROR -->
+        <p id="error" class="text-red-400 text-sm hidden"></p>
+
+    </div>
+</div>   
+ 
+    <!-- ASIDE -->
+    <aside id="sidebar" class="fixed md:relative inset-y-0 left-0 z-50 w-72 bg-slate-950 border-r border-slate-800 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl">
+        <div class="p-6 border-b border-slate-800 flex items-center gap-3 cursor-pointer" onclick="renderContent('welcome')">
+            <div class="w-10 h-10 bg-red-600 rounded flex items-center justify-center text-2xl font-bold text-slate-50">UE</div>
+            <div>
+                <h1 class="text-white text-lg leading-none">ESAN UNIVERSITY</h1>
+                <p class="text-[10px] text-red-400 uppercase tracking-widest">Ingresantes 2026-2</p>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto py-2" id="menu-container"></div>
+        <div class="p-4 text-center text-xs text-slate-500 bg-slate-950">
+            Documento Oficial • 14 Páginas
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 relative bg-gradient-to-br from-slate-950 to-[#020617] flex flex-col min-w-0 overflow-y-auto">
+
+    <!-- TOP BAR -->
+    <div class="h-16 border-b border-slate-800 flex items-center px-4 gap-4 bg-slate-950/90 backdrop-blur z-10">
+
+        <!-- BOTÓN MENU MOBILE -->
+        <button onclick="toggleMenu()" class="md:hidden text-white">
+            <i data-lucide="menu"></i>
+        </button>
+
+        <!-- ICONO SEARCH -->
+        <i data-lucide="search" class="text-slate-500"></i>
+
+        <!-- INPUT -->
+        <input 
+            type="text" 
+            id="search" 
+            placeholder="Buscar (ej: ciclo 0, pagos, inglés)..."
+            class="bg-transparent w-full text-white focus:outline-none placeholder-slate-600"
+        >
+    </div>
+
+    <!-- CONTENIDO -->
+    <div id="viewer" class="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10 scroll-smooth w-full">
+    </div>
+
+</main>
+
+    <script>
+        // BASE DE DATOS
+        const db = {
+            // INICIO
+            welcome: {
+                title: "Inicio",
+                icon: "home",
+                html: `
+    <div class="max-w-4xl mx-auto text-center animate-[fadeIn_0.5s]">
+        <div class="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden mb-8 shadow-2xl border border-slate-700">
+            <img src="https://www.esan.edu.pe/images/blog/2018/04/10/esan-fachada-licenciamiento-facebook.jpg"
+                 class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700" 
+                 alt="Convocatoria ordinaria ESAN">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+            <div class="absolute top-0 left-0 p-8 text-left">
+                <h2 class="text-4xl text-white font-bold mt-2">Bienvenidos a la excelencia</h2>
+            </div>
+        </div>
+        <h1 class="text-3xl text-white font-serif mb-4">Información para ingresantes 2026-2</h1>
+        <p class="text-slate-400 mb-8">
+            En este catálogo interactivo encontrarás la información acerca de los procesos a seguir para el inicio de tus estudios universitarios, así como para absolver las consultas que puedas tener.
+        </p>
+        
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+            <!-- I -->
+            <button onclick="renderContent('I')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-red-500">
+                <h3 class="font-bold text-white">📝 I. Matrícula</h3>
+                <p class="text-xs text-slate-400">Proceso de matrícula de ingresantes.</p>
+            </button>
+
+            <!-- II -->
+            <button onclick="renderContent('II')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-emerald-500">
+                <h3 class="font-bold text-white">💰 II. Escalas de pago</h3>
+                <p class="text-xs text-slate-400">Valor por crédito y cálculo de pensiones.</p>
+            </button>
+
+            <!-- III -->
+            <button onclick="renderContent('III')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-cyan-500">
+                <h3 class="font-bold text-white">💳 III. Cobros académicos</h3>
+                <p class="text-xs text-slate-400">Boletas, medios de pago y reportes.</p>
+            </button>
+
+            <!-- IV -->
+            <button onclick="renderContent('IV')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-fuchsia-500">
+                <h3 class="font-bold text-white">🎁 IV. Descuentos y beneficios</h3>
+                <p class="text-xs text-slate-400">Familiares ESAN, hermanos y pronto pago.</p>
+            </button>
+
+            <!-- V -->
+            <button onclick="renderContent('V')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-rose-500">
+                <h3 class="font-bold text-white">🔁 V. Convalidaciones</h3>
+                <p class="text-xs text-slate-400">Traslado externo y Bachillerato Internacional.</p>
+            </button>
+
+            <!-- VI -->
+            <button onclick="renderContent('VI')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-red-500">
+                <h3 class="font-bold text-white">🎯 VI. Ciclo 0</h3>
+                <p class="text-xs text-slate-400">Cursos de pre-formación: Matemática y Comunicaciones.</p>
+            </button>
+
+            <!-- VII -->
+            <button onclick="renderContent('VII')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-red-500">
+                <h3 class="font-bold text-white">🎓 VII. Nivelación universitaria</h3>
+                <p class="text-xs text-slate-400">Cursos, horarios y beneficios.</p>
+            </button>
+
+            <!-- VIII -->
+            <button onclick="renderContent('VIII')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-orange-500">
+                <h3 class="font-bold text-white">📊 VIII. Exámenes de suficiencia</h3>
+                <p class="text-xs text-slate-400">Descripción, fechas y horarios.</p>
+            </button>
+
+            <!-- IX -->
+            <button onclick="renderContent('IX')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-indigo-500">
+                <h3 class="font-bold text-white">📚 IX. Cursos de extensión</h3>
+                <p class="text-xs text-slate-400">Opciones para complementar tu formación.</p>
+            </button>
+
+            <!-- X -->
+            <button onclick="renderContent('X')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-sky-500">
+                <h3 class="font-bold text-white">🌎 X. Idioma inglés</h3>
+                <p class="text-xs text-slate-400">Examen clasificatorio y centro de idiomas.</p>
+            </button>
+
+            <!-- XI -->
+            <button onclick="renderContent('XI')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-red-500">
+                <h3 class="font-bold text-white">🧾 XI. Reserva, renuncia o retiro</h3>
+                <p class="text-xs text-slate-400">Trámites para postergar o dejar estudios.</p>
+            </button>
+
+            <!-- XII -->
+            <button onclick="renderContent('XII')" class="glass p-4 rounded-xl hover:bg-slate-900 transition border-l-4 border-blue-500">
+                <h3 class="font-bold text-white">📅 XII. Calendario académico</h3>
+                <p class="text-xs text-slate-400">Fechas clave del ciclo 2026-2.</p>
+            </button>
+        </div>
+</div>
+<!-- BOTÓN PDF -->
+<div class="flex justify-center mt-8 mb-8">
+
+    <a
+        href="./Guia_Ingresantes_2026_2.pdf"
+        download
+        class="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-white font-semibold flex items-center gap-3 shadow-lg hover:scale-105">
+
+        <i data-lucide="download" class="w-5 h-5"></i>
+
+        Descargar Guía para Ingresantes 2026-2.pdf
+
+    </a>
+
+</div>
+    </div>`
+            },
+
+           // I. MATRÍCULA
+I: {
+    title: "I. Matrícula",
+    icon: "file-check",
+    html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">
+            I. Proceso de Matrícula
+        </h2>
+
+        <div class="glass p-8 rounded-xl space-y-6">
+
+            <p class="text-lg text-slate-300">
+                La Universidad realiza la matrícula de los alumnos ingresantes; en el primer ciclo,
+                <strong>
+                    los estudiantes no se matriculan a sí mismos, ya que la matrícula es gestionada directamente por la universidad.
+                </strong>
+
+                <span class="text-red-400 font-semibold">
+                    Los horarios y aulas de clase serán entregados durante la Semana de Inducción.
+                </span>
+            </p>
+
+            <p class="text-lg text-slate-300">
+                Se considera ingresante del Pregrado de la Universidad ESAN a toda persona
+                que haya aprobado el proceso de admisión y cumpla con la presentación
+                de los requisitos establecidos en el Reglamento de Admisión.
+            </p>
+
+            <ul class="list-disc pl-6 space-y-4 text-slate-300">
+
+                <li>
+                    <p class="text-lg text-slate-300">
+                        <strong>Requisitos para la Matrícula:</strong>
+                    </p>
+
+                    <p class="mt-2">
+                        Para que la universidad proceda con la matrícula del ingresante,
+                        el estudiante deberá enviar a su asesor(a) de inscripciones,
+                        antes del inicio de la Semana de Inducción, lo siguiente:
+                    </p>
+
+                    <ul class="list-disc pl-6 space-y-3 mt-4">
+
+                        <li>
+                            Comprobante de pago correspondiente a la matrícula y a la primera boleta.
+                        </li>
+
+                        <li>
+                            Documentación requerida según la modalidad de ingreso:
+
+                            <ul class="pl-6 mt-4 space-y-3">
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Certificado de estudios secundarios
+                                        (1.° al 5.° año).
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Copia del Documento Nacional de Identidad (DNI).
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Fotografía digital del ingresante (consultar el formato con su asesor(a) de inscripciones).
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Ficha de datos completa.
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Declaración jurada firmada.
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Formato de beneficio ofrecido, de corresponder.
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <span class="font-semibold text-white">
+                                Ingresantes por Traslado Externo o Bachillerato Internacional:
+                            </span>
+
+                            <p class="mt-2">
+                                Además de los requisitos antes mencionados,
+                                los estudiantes que ingresen bajo la modalidad
+                                de Traslado Externo o Bachillerato Internacional deberán:
+                            </p>
+
+                            <ul class="pl-6 mt-4 space-y-3">
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Realizar el trámite de convalidación correspondiente,
+                                        solicitando el formato e indicaciones a su asesor(a)
+                                        de inscripción.
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Enviar a su asesor(a) de inscripción el Acta de
+                                        Convalidación una vez emitida.
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Efectuar el pago por el trámite de convalidación y remitir
+                                        el comprobante correspondiente (aplica para Traslados Externos).
+                                    </span>
+                                </li>
+
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-white-400 mt-1"></i>
+                                    <span>
+                                        Presentar la Constancia de Bachillerato Internacional
+                                        (no aplica para Traslados Externos).
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+            </ul>
+
+            <div class="bg-slate-900/80 p-4 rounded border border-slate-700 text-sm text-slate-100 flex items-start gap-3">
+                <i data-lucide="info" class="w-4 h-4 mt-0.5 text-slate-300"></i>
+
+                <span>
+                    <strong>IMPORTANTE:</strong>
+                    No se completará la matrícula del/de la ingresante hasta que cumpla
+                    con la entrega de todos los requisitos de matrícula. El estudiante deberá
+                    estar atento a las fechas límite de entrega de documentos indicadas por los(as)
+                    asesores(as) de inscripción y comunicadas a sus correos electrónicos. 
+                    Toda la documentación deberá ser entregada antes del inicio de la Semana de Inducción.
+                </span>
+            </div>
+
+        </div>
+    </div>`
+},
+
+            // II. ESCALAS DE PAGO
+            II: {
+                title: "II. Escalas de Pago",
+                icon: "dollar-sign",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s] space-y-8">
+        <h2 class="text-3xl text-white font-serif">II. Escalas de pago</h2>
+
+        <p class="text-slate-300">
+            Existen <span class="text-red-400 font-semibold">cinco escalas de pago</span> de derechos académicos. 
+            Cada escala define un valor por crédito académico.
+        </p>
+
+        <h3 class="text-xl text-red-400 font-semibold mb-3 font-serif">
+            Tabla de escalas por crédito
+        </h3>
+
+        <div class="overflow-hidden rounded-lg border border-slate-700">
+            <table class="w-full text-left text-slate-300">
+                <thead class="bg-slate-950 text-white uppercase text-xs">
+                    <tr>
+                        <th class="p-4">Escala</th>
+                        <th class="p-4 text-right">Valor crédito (S/.)*</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900">
+                    <tr><td class="p-4 font-semibold">Escala H</td><td class="p-4 text-right text-red-400 font-mono text-lg">400.00</td></tr>
+                    <tr><td class="p-4 font-semibold">Escala I</td><td class="p-4 text-right text-red-400 font-mono text-lg">486.00</td></tr>
+                    <tr><td class="p-4 font-semibold">Escala J</td><td class="p-4 text-right text-red-400 font-mono text-lg">601.00</td></tr>
+                    <tr><td class="p-4 font-semibold">Escala K</td><td class="p-4 text-right text-red-400 font-mono text-lg">728.00</td></tr>
+                    <tr><td class="p-4 font-semibold">Escala L</td><td class="p-4 text-right text-red-400 font-mono text-lg">924.00</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-xs text-slate-400">
+            <span class="font-semibold">(*)</span><span class="font-semibold">Costos para el año 2026.</span> El monto de las pensiones podrá ser incrementado en el tiempo de acuerdo con las necesidades institucionales, la inflación y/o aumento de precio de los bienes y servicios necesarios para la continuidad de la prestación del servicio educativo, lo cual será debidamente informado y se realizará la observando las disposiciones legales vigentes.
+        </p>
+
+        <!-- Cálculo del pago del semestre -->
+        <div class="glass p-6 rounded-xl space-y-3 border-2 border-red-500/70">
+            <h3 class="text-xl text-white font-serif">Cálculo del pago del semestre</h3>
+            <p class="text-slate-300">
+                El monto total del semestre se calcula considerando:
+            </p>
+            <ol class="list-decimal pl-6 text-slate-300 space-y-1">
+                <li>La escala de pago asignada.</li>
+                <li>El número de créditos matriculados.</li>
+            </ol>
+            <ul class="list-disc pl-6 text-slate-300 space-y-1">
+                <li>En el primer semestre el estudiante será matriculado en todos los cursos establecidos en el plan de estudios aplicable (considere que el plan de estudios incluye los cursos de preformación del ciclo cero).</li>
+                <li>En consecuencia, la matrícula se realizará tomando en cuenta la situación académica del estudiante respecto de los cursos de preformación y la carga académica podrá variar según las exoneraciones obtenidas mediante el PNU, los exámenes de suficiencia o las modalidades de admisión que correspondan.</li>
+                <li>A partir del segundo semestre el alumno podrá matricularse por sí mismo en la cantidad de créditos que elija.</li>
+            </ul>
+        </div>
+
+        <!-- Asignación y revisión de escala -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="glass p-6 rounded-xl space-y-2 border-2 border-sky-500/70">
+                <h3 class="text-lg text-white font-serif">Asignación de escala de pago</h3>
+                <ul class="list-disc pl-6 text-slate-300 space-y-1">
+                    <li>El costo del crédito se establecerá según la categoría de pago asignada al colegio de procedencia.</li>
+                    <li>A los colegios del extranjero se les asignará la escala de pago L.</li>
+                </ul>
+            </div>
+            <div class="glass p-6 rounded-xl space-y-2 border-2 border-emerald-500/70">
+                <h3 class="text-lg text-white font-serif">Solicitud de revisión de escala</h3>
+                <ul class="list-disc pl-6 text-slate-300 space-y-1">
+                    <li>En caso requerirlo, el alumno podrá solicitar la revisión de la escala de pago en la Oficina de Bienestar Estudiantil, enviando un correo a: 
+                        <a href="mailto:categorizacion@ue.edu.pe" class="font-semibold text-red-400 hover:underline">categorizacion@ue.edu.pe</a>.
+                    </li>
+                    <li>Plazo: Durante las cuatro primeras semanas de clases del ciclo regular.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Importante -->
+        <div class="bg-slate-900/80 p-4 rounded border border-slate-700 text-sm text-slate-100 flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 mt-0.5 text-slate-300"></i>
+            <div>
+                <p class="font-semibold mb-1">Importante:</p>
+                <ul class="list-disc pl-5 space-y-1 text-slate-200">
+                    <li>La solicitud de revisión escala no conlleva necesariamente un cambio de categoría.</li>
+                    <li>Los resultados de las reevaluaciones serán entregados al finalizar el semestre en el que se realizó el trámite.</li>
+                    <li>De aprobarse, el cambio se aplicará desde el semestre siguiente.</li>
+                </ul>
+            </div>
+        </div>
+    </div>`
+            },
+
+            // III. COBROS
+            III: {
+                title: "III. Cobros Académicos",
+                icon: "credit-card",
+                html: `
+    <div class="max-w-5xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">III. Cobros por concepto de servicios académicos (*)</h2>
+        
+        <p class="text-sm text-slate-400 mb-4">
+        Son aquellos cobros que incluyen las cuotas por los derechos académicos y la matrícula (pago único por semestre).   
+        </p>
+
+        <p class="text-sm text-slate-400 mb-4">
+        <strong>i. Matrícula:</strong> Al iniciar cada semestre académico, los alumnos deberán efectuar el pago del derecho de matrícula de S/375.00 (Trescientos Setenta y Cinco con 00/100 Soles). El pago efectuado por este concepto no es materia de devolución, salvo en aquellos casos previstos por la normativa aplicable o cuando la Universidad determine expresamente la procedencia de la devolución.
+        </p>
+
+        <p class="text-sm text-slate-400 mb-4">
+        <strong>ii. Cuotas por derechos académicos:</strong> Las cuotas por derechos académicos son calculadas en función al valor de la escala de pagos asignada y al número de créditos en que el alumno se matricule.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Tarjeta: Derecho de matrícula -->
+            <div class="glass p-6 rounded-xl border-t-4 border-red-500">
+                <h3 class="text-slate-400 text-xs uppercase font-bold">Derecho de matrícula</h3>
+                <p class="text-3xl text-white font-bold my-2">S/ 375.00</p>
+                <p class="text-[13px] text-slate-400">
+                    Pago único por semestre, se cancela al inicio de cada semestre académico. 
+                </p>
+            </div>
+
+            <!-- Tarjeta: Sistema de Boletas (Pensiones) -->
+            <div class="col-span-2 glass p-6 rounded-xl">
+                <h3 class="text-white font-bold mb-4">Sistema de cuotas por derechos académicos (En Soles)</h3>
+                <div class="space-y-3 text-sm text-slate-300">
+                    <div class="flex justify-between border-b border-slate-700 pb-1">
+                        <span class="font-semibold">1ra boleta</span>
+                        <span class="text-right">
+                            Derecho de Matrícula + (Valor de Crédito) x (4 Créditos Académicos)
+                        </span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-700 pb-1">
+                        <span class="font-semibold">2da boleta</span>
+                        <span class="text-right">
+                            (Valor de Crédito) x (5 Créditos Académicos)
+                        </span>
+                    </div>
+                    <div class="flex justify-between pb-1">
+                        <span class="font-semibold">3ra, 4ta y 5ta boleta</span>
+                        <span class="text-right">
+                            (Total de Créditos Matriculados – 9 Créditos) / 3 = No. de Créditos por Pagar en cada boleta. <br>
+                            (Valor del Crédito) x (No. de Créditos por Pagar) = Monto a Pagar
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-sm text-slate-400 mb-4">
+            El pago de la primera boleta es requisito indispensable para efectuar la matrícula. 
+            En caso de acceder a un descuento promocional, se aplicará el Lineamiento de Descuento Promocional.
+        </p>
+
+        <p class="text-sm text-slate-400 mb-4">
+            Los costos indicados no incluyen separatas ni libros.
+        </p>
+        
+        <h3 class="text-white font-bold mb-4">Medios de pago</h3>
+
+        <p class="text-sm text-slate-400 mb-4">
+            Puede emplear cualquiera de estas opciones para el pago de la matrícula y los derechos académicos:
+        </p>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 text-sm">
+        
+            <div class="glass p-4 rounded-xl border-2 border-purple-500/70">
+                <h4 class="font-bold text-white mb-1">YAPE</h4>
+                <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1">
+                    <li>Ingresar a la app Yape.</li>
+                    <li>Seleccionar el botón "Yapear servicios" y luego la opción "Educación".</li>
+                    <li>Elegir la empresa "FIDEICOMISO ESAN".</li>
+                    <li>Seleccionar el servicio "Esan Pensiones Soles".</li>
+                    <li>Ingresar el código de alumno.</li>
+                    <li>Elegir el recibo a pagar y luego presionar "Yapear Servicio".</li>
+                </ul>
+            </div>
+        
+            <div class="glass p-4 rounded-xl border-2 border-orange-500/70">
+                <h4 class="font-bold text-white mb-1">BCP</h4>
+                <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1">
+                    <li>Seleccionar la opción "Pagar servicio".</li>
+                    <li>Elegir la empresa "FIDEICOMISO ESAN".</li>
+                    <li>Seleccionar el servicio: <strong>PREGRADO PENSIONES SOLES</strong>.</li>
+                    <li>Ingresar el código de alumno y seleccionar la boleta a cancelar.</li>
+                    <p class="text-sm text-slate-400 mb-4">
+            <strong>Opción de pago en ventanilla del banco:</strong> </br>
+        </p>
+                   Para pagar en nuestras cuentas, se debe indicar la modalidad correspondiente y el código del alumno para identificar el pago. </br>
+                   </br> En el caso del Banco de Crédito: BCP - Fideicomiso ESAN - Modalidad: <strong>ESAN PENSIONES SOLES</strong>.
+                </ul>
+            </div>
+            <div class="glass p-4 rounded-xl border-2 border-blue-500/70">
+                <h4 class="font-bold text-white mb-1">BBVA</h4>
+                <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1">
+                    <li>Seleccionar la opción "Pagar servicio".</li>
+                    <li>Seleccionar el servicio: ESAN PENSIONES SOLES.</li>
+                    <li>Ingresar código de alumno y seleccionar la boleta.</li>
+                   (Código alumno = Código SAP). 
+                   <p class="text-sm text-slate-400 mb-4">
+            <strong>Opción de pago en ventanilla del banco:</strong> </br>
+        </p>
+                Para pagar en nuestras cuentas, se debe indicar la modalidad correspondiente y el código del alumno para identificar el pago. </br>
+                </br> En el caso del Banco Continental: BBVA - Modalidad: <strong>ESAN PENSIONES SOLES</strong>.
+                </ul>
+            </div>
+            <div class="glass p-4 rounded-xl border-2 border-red-500/70">
+                <h4 class="font-bold text-white mb-1">PLATAFORMA UESAN</h4>
+                <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1">
+                    <li>A través de la intranet en nuestra plataforma virtual, mediante la siguiente ruta:</li>
+<li>Ruta: Inicio / Mi portal / Enlaces / Pagos Visa.</li>
+                    <li>O también ingresando directamente al siguiente link: 
+                        <a href="https://pagos.esan.edu.pe/alumno/inicio/logon" target="_blank" class="underline">https://pagos.esan.edu.pe/</a>.
+                    </li>
+                    <li>Deberá ingresar su código de alumno (código SAP) y su número de DNI.</li>
+                    <li>Los pagos por este medio se pueden realizar con tarjeta de débito o crédito.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="text-white font-bold mb-2">Reportes a centrales de riesgo</h3>
+        <div class="bg-slate-900/80 p-4 rounded border border-slate-700 text-sm text-slate-100 flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 mt-0.5 text-slate-300"></i>
+            <span>
+                En caso de incumplimiento de pagos de las boletas vencidas, la Universidad ESAN
+queda facultada a trasladar la documentación correspondiente a su área legal para
+las acciones de recuperación de la deuda que corresponda, a tercerizar la cobranza,
+o, de ser el caso, a transferir los derechos de cobro a terceros, respetando la
+regulación de protección de datos personales. </br> La Universidad podrá reportar a las centrales de riesgo a la persona que tenga la
+condición de obligado al pago de las obligaciones económicas derivadas de la
+prestación del servicio educativo, de conformidad con la normativa aplicable.
+            </span>
+        </div>
+        <p class="text-sm text-slate-400 mb-4">
+            <strong> (*) A los ingresantes PRONABEC o aquellos que cuenten con algún otro beneficio de beca, les agradecemos no tomar en cuenta la información relacionada con los pagos.</strong> 
+    </div>`
+            },
+
+            // IV. DESCUENTOS
+            IV: {
+                title: "IV. Descuentos y Beneficios",
+                icon: "percent",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">IV. Políticas de descuentos y beneficios</h2>
+        
+        <p class="text-slate-300 mb-4">
+      Para el pago de las pensiones por derechos académicos, se aplicará la política de descuentos vigente y beneficios, que se detalla a continuación:
+        </p>
+
+        <!-- 1. Familiares ESAN -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-4 border-2 border-red-500/60">
+            <div class="flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5 text-red-400"></i>
+                <h3 class="text-red-400 font-semibold text-xl font-serif">
+                    Familiares ESAN
+                </h3>
+            </div>
+            <p class="text-sm text-slate-300">
+                Descuentos para hijos y cónyuge de egresados de MBA - PADE. El descuento se aplica sobre los derechos académicos, según el programa cursado por el familiar egresado.
+            </p>
+            <div class="grid md:grid-cols-4 gap-3 text-center text-xs text-slate-200">
+                <div class="bg-slate-900 p-3 rounded border border-slate-700">
+                    <p class="text-2xl font-bold text-red-400">30%</p>
+                    <p class="mt-1">Hijos y cónyuge de los graduados del MBA de ESAN.</p>
+                </div>
+                <div class="bg-slate-900 p-3 rounded border border-slate-700">
+                    <p class="text-2xl font-bold text-red-400">25%</p>
+                    <p class="mt-1">Hijos y cónyuge de graduados de las maestrías especializadas de ESAN.</p>
+                </div>
+                <div class="bg-slate-900 p-3 rounded border border-slate-700">
+                    <p class="text-2xl font-bold text-red-400">15%</p>
+                    <p class="mt-1">Hijos y cónyuge de alumnos de maestrías ofrecidas por ESAN. Para mantener el descuento, el alumno de la maestría no deberá presentar deuda con la institución.</p>
+                </div>                
+                <div class="bg-slate-900 p-3 rounded border border-slate-700">
+                    <p class="text-2xl font-bold text-red-400">10%</p>
+                    <p class="mt-1">Hijos y cónyuge de los egresados de los programas PADE ofrecidos por ESAN.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Reglas generales -->
+        <div class="glass p-6 rounded-xl mb-6">
+            <h3 class="text-white font-serif text-xl mb-3">Reglas generales para la aplicación de descuentos a hijos y cónyuges:</h3>
+            <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+                <li>Desde la tercera boleta, en forma retroactiva, sólo en el primer semestre. A partir del siguiente semestre el descuento se aplicará desde la primera boleta.</li>
+                <li>Los descuentos mencionados se aplican sobre el valor de cada cuota, según la categoría asignada al alumno.</li>
+                <li>Los descuentos se aplican únicamente a los primeros 200 créditos académicos matriculados.</li>
+                <li>Los descuentos se activan desde el semestre en que son solicitados por el alumno; en este sentido, estos no serán de aplicación retroactiva.</li>
+                <li>Los descuentos no son acumulativos. En caso de contar con un descuento comercial, no se aplican los descuentos mencionados (Descuentos para hijos y cónyuge de egresados de MBA - PADE).</li>
+            </ul>
+        </div>
+
+        <!-- 3 y 4. Hermanos + Pronto pago -->
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="glass p-6 rounded-xl border-2 border-blue-500/70">
+                <h3 class="text-white font-serif text-xl mb-3">Beneficio para hermanos que estudian en pregrado</h3>
+                <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+                    <li>En el caso de que dos o más hermanos sean alumnos de pregrado ESAN y se
+encuentren matriculados en un mismo semestre académico, se les otorgará como
+beneficio la reducción en un nivel de la escala de pagos asignada durante dicho
+semestre. La reducción se aplicará a los alumnos cuyas escalas fluctúen entre la “I”
+a la “L” detalladas en el numeral II, literal a) precedente. Se exceptúa de este
+beneficio a los alumnos que estén clasificados en la escala “H”, por no existir una
+escala menor.</li>
+                    <li>La reducción se aplicará a partir de la tercera boleta de manera retroactiva.</li>
+                    <li>El beneficio se mantendrá únicamente mientras todos los hermanos que sustentan
+su otorgamiento permanezcan matriculados simultáneamente durante el semestre
+académico correspondiente. De verificarse el incumplimiento de esta condición, el
+beneficio dejará de aplicarse a partir del semestre siguiente.</li>
+                    <li>Para obtener el beneficio, el alumno deberá presentar su solicitud ante la oficina de
+Bienestar Estudiantil en las fechas indicadas en la UEVirtual, caso contrario no tendrá
+derecho al descuento en ese semestre.</li>
+                </ul>
+            </div>
+
+            <div class="glass p-6 rounded-xl border-2 border-emerald-500/70">
+                <h3 class="text-white font-serif text-xl mb-3">Descuento por pronto pago</h3>
+                <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+                    <li>Si el alumno desea pagar el costo total del semestre, se le otorgará un descuento del <strong>10 %</strong>, aplicados desde la segunda boleta a la quinta boleta, siempre que haya cumplido con los
+lineamientos y fechas que indique la universidad. Aplica sólo para matrículas regulares, es
+decir, mayores a 12 créditos académicos.</li>
+                    <li>Dicho descuento no aplica al derecho de matrícula y no es acumulable con descuentos
+comerciales que se apliquen a un determinado número de boleta (por ej. descuento del
+20% en la segunda boleta).</li>
+                     <li>Para conocer más información sobre este descuento, puede comunicarse al correo: 
+                        <a href="mailto:finanzaspregrado@ue.edu.pe" class="text-red-400 hover:underline">finanzaspregrado@ue.edu.pe</a>.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. Devoluciones -->
+        <div class="glass p-6 rounded-xl mb-4">
+            <h3 class="text-white font-serif text-xl mb-2">Devoluciones</h3>
+            <p class="text-sm text-slate-300 mb-2">
+                Los trámites de devolución podrán estar sujetos al cobro o descuento de los gastos
+administrativos efectivamente incurridos por la Universidad para la atención del trámite,
+siempre que estos resulten razonables, se encuentren debidamente sustentados y sean
+informados al solicitante de manera previa. De corresponder, dichos gastos serán
+descontados del importe a devolver.
+            </p>
+
+            <p class="text-sm text-slate-300 mb-2">
+            Para efectuar la devolución, el solicitante deberá indicar una cuenta bancaria para el
+depósito correspondiente. En caso de no contar con una, la devolución se realizará
+mediante cheque físico o cheque de gerencia, aplicándose un cargo adicional de S/ 14.00
+por la emisión de dicho documento.
+            </p>
+
+            <p class="text-sm text-slate-300 mb-2">
+            El trámite de la devolución tendrá una duración de no más de 45 días hábiles luego de
+haber entregado el formato de devolución en la Oficina de Finanzas de Pregrado.
+            </p>
+            
+        </div>
+
+        <!-- 6. Gastos administrativos -->
+        <div class="glass p-6 rounded-xl mb-4">
+            <h3 class="text-white font-serif text-xl mb-2">Gastos administrativos</h3>
+            <p class="text-sm text-slate-300">
+                Son gastos por la devolución y servicios adicionales que el alumno solicita y que no están
+considerados en el pago de su matrícula, ni en el pago de derechos académicos.
+            </p>
+        </div>
+    </div>`
+            },
+
+            // V. CONVALIDACIONES
+            V: {
+                title: "V. Convalidaciones",
+                icon: "arrow-right-left",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">
+            V. Convalidaciones por traslado externo y Bachillerato Internacional
+        </h2>
+
+        <!-- Traslado Externo -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-3 border-2 border-blue-500/70">
+            <h3 class="text-white font-bold text-lg">Traslado externo</h3>
+            <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+                <li>La presentación del expediente de convalidación tendrá un costo de <strong>S/ 250.00 (Doscientos cincuenta con 00/100 Soles)</strong>, <strong> el cual no está sujeto a devolución</strong>.</li>
+                <li>El pago debe ser cancelado mediante la cuenta corriente enviada vía correo electrónico al alumno.</li>
+                <li>Los documentos necesarios para la convalidación son los syllabus de los cursos, certificados de notas y de conducta originales, debidamente visados y sellados por la Secretaría General o autoridad equivalente de la Universidad de Procedencia.</li>
+                <li>Dicho expediente deberá ser presentado en el Área de Servicios Académicos, con la boleta de pago de los derechos correspondientes.</li>
+            </ul>
+            <p class="text-sm text-slate-300">
+                El Comité de Convalidaciones efectúa la revisión del expediente presentado por el alumno y emite su fallo respecto a los cursos a convalidar. El alumno recibe la información de los cursos convalidados a través de su correo institucional.
+            </p>
+            <p class="text-sm text-slate-300">
+                Para completar el proceso de convalidación es necesario haber cancelado el pago por presentación de expediente. A partir de esto, serán matriculados en los cursos correspondientes según su plan de estudios.
+            </p>
+        </div>
+
+        <!-- Bachillerato Internacional -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-3 border-2 border-emerald-500/70">
+            <h3 class="text-white font-bold text-lg">Bachillerato Internacional</h3>
+            <p class="text-sm text-slate-300">
+                Los ingresantes por programas de Bachillerato Internacional tienen la posibilidad de convalidar asignaturas dependiendo de los cursos que aprobaron y de la especialidad a la que postulan. El Comité de Convalidaciones de la Universidad revisará la documentación presentada para luego emitir el dictamen en relación con los cursos convalidados. El alumno recibe la información de los cursos convalidados a través de su correo institucional. A partir de esto, serán matriculados en los cursos correspondientes según su plan de estudios.
+            </p>
+            <p class="text-sm text-slate-300">
+                El trámite de convalidaciones por Bachillerato Internacional no tiene costo.
+            </p>
+            <p class="text-xs text-slate-400">
+                Puedes consultar más información en:
+                <a href="https://www.ue.edu.pe/pregrado/admision/modalidades/bachillerato-internacional" target="_blank" class="text-red-400 underline">
+                    ue.edu.pe / Modalidades de ingreso / Bachillerato Internacional
+                </a>.
+            </p>
+        </div>
+    </div>`
+            },
+
+            // VI. CICLO 0
+            VI: {
+                title: "VI. Ciclo 0",
+                icon: "layers",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">
+            VI. Ciclo 0 (cursos de pre-formación)
+        </h2>
+
+        <!-- Descripción general -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-3 border-l-4 border-red-500">
+            <h3 class="text-white font-bold text-lg">¿Qué son los cursos de preformación?</h3>
+            <p class="text-sm text-slate-300">
+                Los cursos de preformación (ciclo 0) tienen por objetivo fortalecer los conocimientos que poseen los ingresantes de la Universidad ESAN, en áreas como Matemáticas y Comunicaciones, a fin de asegurar una adecuada adaptación de los mismos al nivel de exigencia de la educación universitaria y, con ello, garantizar su progresión curricular de manera satisfactoria.
+            </p>
+            <p class="text-sm text-slate-300">
+                El objetivo de los cursos de preformación es que el estudiante no prolongue innecesariamente su avance curricular por un mal desempeño en los cursos de la carrera elegida.
+            </p>
+        </div>
+
+        <!-- Son obligatorios -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-3 border-l-4 border-red-500">
+            <h3 class="text-white font-bold text-lg">¿Los cursos de preformación son obligatorios?</h3>
+            <p class="text-sm text-slate-300">
+                Sí. Los cursos de preformación constituyen requisitos académicos para cursar determinadas
+asignaturas de la carrera que los tengan establecidos como prerrequisito. <strong>No constituyen un
+requisito para el ingreso a la Universidad ni impiden el inicio de estudios universitarios, siempre
+que el estudiante se matricule en asignaturas que no los requieran como prerrequisito</strong>. 
+            </p>
+            <p class="text-sm text-slate-300">
+              En tal sentido, el estudiante <strong>puede matricularse en cursos de primer ciclo que no dependan de los cursos de preformación</strong>.
+            </p>
+        </div>
+
+        <!-- Exoneración con links a VI y VII -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-4 border-l-4 border-red-500">
+            <h3 class="text-white font-bold text-lg">¿Es posible exonerarse de los cursos de preformación?</h3>
+            <p class="text-sm text-slate-300">
+                La Universidad ESAN ofrece tres alternativas mediante las cuales el ingresante puede demostrar las competencias básicas universitarias fundamentales y exonerar los cursos de preformación. Estas son las opciones:
+            </p>
+            <ul class="list-decimal pl-6 text-sm text-slate-300 space-y-2">
+                <li>
+                    Cursar el 
+                    <button type="button"
+                        onclick="renderContent('VII')"
+                        class="inline-flex items-center gap-1 text-red-400 hover:text-red-300 hover:underline font-semibold">
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                        Programa de Nivelación universitaria (PNU)
+                    </button>
+                </li>
+                <li>
+                    Rendir los 
+                    <button type="button"
+                        onclick="renderContent('VIII')"
+                        class="inline-flex items-center gap-1 text-red-400 hover:text-red-300 hover:underline font-semibold">
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                        exámenes de suficiencia
+                    </button>
+                </li>
+                <li>
+                    Ingresar a la universidad por determinadas modalidades de admisión (Bachillerato Internacional; traslado externo con convalidación de 23 o más créditos; y la PRE-ESAN)
+                </li>
+            </ul>
+            <p class="text-xs text-slate-400">
+                En caso de que el estudiante no exonere los cursos de preformación, por alguna de las modalidades antes referidas, podrá matricularse en las asignaturas del primer ciclo de su malla curricular que <strong>no tengan como requisito a los cursos de preformación</strong>. No obstante, lo antes referido, los ingresantes podrán llevar en paralelo los cursos de preformación mientras cursan el primer ciclo de carrera.
+            </p>
+        </div>
+
+
+<!-- Tabla 2: Relación con la malla -->
+<div class="glass p-6 rounded-xl mb-6 space-y-4 border-l-4 border-red-500">
+    <h3 class="text-white font-bold text-lg">
+        ¿Cómo se relacionan los cursos de preformación con la malla académica?
+    </h3>
+
+    <p class="text-sm text-slate-300">
+        Cada curso de preformación tiene una <strong>equivalencia administrativa de 3 créditos</strong>. Esto significa que, si no se exoneran mediante las diversas alternativas descritas (PNU, exámenes de suficiencia o modalidades de admisión), el estudiante deberá cursarlos en un semestre regular, y su costo será equivalente a 3 créditos según su escala de pago.
+    </p>
+
+    <p class="text-sm text-slate-300">Cabe indicar que, <strong>en términos académicos:</strong></p>
+
+    <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+        <li>
+            Estos créditos no se consideran en el promedio ponderado general del estudiante ni se incorporan al total de créditos requeridos para su graduación.
+        </li>
+        <li>
+            La aprobación de estos cursos es obligatoria para poder cursar asignaturas que los tengan como requisito, con el fin de asegurar una base sólida de conocimientos para cursos posteriores.
+        </li>
+    </ul>
+</div>
+
+
+        <!-- Barra informativa final estilo matrícula -->
+        <div class="bg-slate-900/80 p-4 rounded border border-slate-700 text-sm text-slate-100 flex items-start gap-3 mt-2">
+            <i data-lucide="info" class="w-4 h-4 mt-0.5 text-slate-300"></i>
+            <span>
+                Los cursos de preformación son requisitos porque la universidad tiene el deber de garantizar que los estudiantes cuenten con las bases necesarias para adquirir los conocimientos y habilidades que se les brinda a lo largo de su carrera.
+            </span>
+        </div>
+    </div>`
+            },
+
+            // VII. NIVELACIÓN
+            VII: {
+                title: "VII. Nivelación Universitaria",
+                icon: "book-open",
+                html: `
+    <div class="max-w-5xl mx-auto animate-[fadeIn_0.5s] space-y-8">
+
+      <h2 class="text-3xl text-white font-serif">VII. Nivelación universitaria</h2>
+
+      <!-- Beneficio -->
+      <div class="bg-gradient-to-r from-red-500 to-red-700 text-slate-50 p-6 rounded-xl shadow-lg">
+        <h3 class="font-bold text-2xl font-serif">Beneficio para prematriculados</h3>
+        <p class="font-bold text-lg">Participación gratuita en el PNU</p>
+        <p class="text-sm">Valor referencial del programa: S/ 2,100.00</p>
+      </div>
+
+      <!-- ¿Qué es? -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">¿Qué es el Programa de Nivelación Universitaria (PNU)?</h3>
+        <p>
+         El Programa de Nivelación Universitaria (PNU), ofrecido por la Universidad ESAN a los estudiantes ingresantes, tiene como propósito apoyarlos en su adaptación a la vida universitaria, reforzando conocimientos y habilidades fundamentales que contribuyen a su éxito académico en sus estudios de pregrado.
+        </p>
+      </div>
+
+      <!-- Cursos -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">Cursos del programa (*)</h3>
+        <p class="mt-2">
+          El programa incluye dos cursos obligatorios: Matemáticas y Comunicaciones que se describen a continuación:
+        </p>
+        <ul class="list-disc pl-6 space-y-1">
+          <li><strong>Matemáticas:</strong> Proporciona conocimientos teórico-prácticos, junto con técnicas y estrategias básicas, para consolidar y profundizar la base matemática. Ello ayuda a cubrir vacíos conceptuales y preparar a los estudiantes para los cursos de matemáticas a lo largo de la carrera.</li>
+          <li><strong>Comunicaciones:</strong> Refuerza habilidades de comprensión lectora e inicia en los principios de producción de textos. Los estudiantes se familiarizan con la lectura reflexiva y comprensiva. A través de una metodología práctica, repasan y dominan el uso correcto del idioma, incluyendo sesiones de taller para la creación de textos.</li>
+        </ul>
+      </div>
+
+      <!-- Condiciones -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">Condiciones importantes</h3>
+        <ul class="list-disc pl-6 space-y-1">
+<li>Los ingresantes a la Universidad ESAN que confirmen su matrícula mediante el pago de su primera boleta de estudios de pregrado, se convierten en prematriculados y obtienen automáticamente el beneficio de participar gratuitamente en el Programa de Nivelación Universitaria, sujeto a las condiciones y
+vacantes establecidas por la Universidad.</li>          
+<li>El Programa de Nivelación Universitaria tiene un valor referencial de S/ 2,100.00. Los
+estudiantes prematriculados que cumplan las condiciones establecidas recibirán una
+bonificación equivalente al 100% del costo del programa <strong>por solo una vez.</strong> En caso de retiro
+voluntario del programa en los supuestos establecidos en el formato de inscripción, se
+aplicarán las condiciones económicas allí previstas.</li>
+<li>El Programa de Nivelación Universitaria permite a los ingresantes familiarizarse con la
+docencia universitaria, así como, a adquirir herramientas académicas que le permitan cursar
+satisfactoriamente su vida universitaria. </li>
+<li>Los estudiantes que aprueben las asignaturas del PNU serán exonerados de los cursos de
+preformación correspondientes a su carrera y serán matriculados directamente en todas las
+asignaturas del primer semestre. En caso contrario, cursarán durante el primer semestre las
+asignaturas de preformación no exoneradas, simultáneamente con las otras asignaturas
+correspondientes a su plan de estudios que no tengan dichos cursos como requisito,
+manteniéndose así la carga académica equilibrada y el itinerario correspondiente a su malla. </li>
+<li>Así, los alumnos que aprueben los cursos de Matemática y Comunicaciones en el Programa de
+Nivelación Universitaria serán exonerados de las asignaturas de ciclo cero de su plan de
+estudios. </li>
+    </ul>
+      </div>
+
+      <!-- Inscripción -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">Inscripción</h3>
+        <p>
+         Para inscribirse al PNU, el ingresante prematriculado, debe solicitar el enlace correspondiente
+a su asesor de ventas. En el caso de estudiantes menores de edad, el formato debe ser
+completado y enviado por el padre, la madre o apoderado, quien autorizará además el
+tratamiento de sus datos conforme a lo consignado en la Ley de Protección de Datos
+Personales. La apertura de horarios y modalidades está sujeta a un mínimo de estudiantes
+inscritos.
+        </p>
+      </div>
+
+    
+
+      <!-- Cronograma -->
+      <h3 class="text-white font-serif text-xl">CRONOGRAMA Y HORARIOS DE LOS CURSOS DE NIVELACIÓN UNIVERSITARIA 2026-2</h3>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="glass p-4 rounded border-l-4 border-red-500 text-sm space-y-1">
+            <p class="text-white font-bold">Ciclo Regular</p>
+            <p class="text-slate-300 text-xs">Inicio de clases: Lunes 25 de mayo de 2026</p>
+            <p class="text-slate-300 text-xs">Fin de clases: Lunes 13 de julio de 2026</p>
+<p class="text-slate-400 text-xs">Horario 1: Lunes, miércoles y viernes de 9:00 a.m. a 1:00 p.m.</p>
+<p class="text-slate-400 text-xs">Horario 2: Lunes, miércoles y viernes de 4:00 p.m. a 8:00 p.m.</p>
+            <p class="text-slate-300 text-xs">Plazo de inscripción: Hasta el miércoles 20 de mayo de 2026 a las 12:30 hrs.</p>
+                </div>
+
+        <div class="glass p-4 rounded border-l-4 border-red-500 text-sm space-y-1">
+            <p class="text-white font-bold">Ciclo Intensivo 1</p>
+            <p class="text-slate-300 text-xs">Inicio de clases: Lunes 01 de junio de 2026</p>
+            <p class="text-slate-300 text-xs">Fin de clases: Martes 30 de junio de 2026</p>
+<p class="text-slate-400 text-xs">Horario 1: Lunes a viernes de 9:00 a.m. a 1:00 p.m.</p>
+            <p class="text-slate-300 text-xs">Plazo de inscripción: Hasta el miércoles 27 de mayo de 2026 a las 12:30 hrs.</p>
+               </div>
+
+        <div class="glass p-4 rounded border-l-4 border-red-500 text-sm space-y-1 lg:col-span-2 lg:max-w-xl lg:mx-auto">
+            <p class="text-white font-bold">Ciclo Intensivo 2</p>
+            <p class="text-slate-300 text-xs">Inicio de clases: Miércoles 01 de julio de 2026</p>
+            <p class="text-slate-300 text-xs">Fin de clases: Viernes 31 de julio de 2026</p>
+<p class="text-slate-400 text-xs">Horario 1: Lunes a viernes de 9:00 a.m. a 1:00 p.m.</p>
+<p class="text-slate-400 text-xs">Horario 2: Lunes a viernes de 4:00 p.m. a 8:00 p.m.</p>
+            <p class="text-slate-300 text-xs">Plazo de inscripción: Hasta el viernes 26 de junio de 2026 a las 12:30 hrs.</p>
+        </div>
+        </div>
+        
+        <!-- Espacio entre secciones -->
+<div class="mt-8"></div>
+
+        <h3 class="text-white font-serif text-xl">CRONOGRAMA Y HORARIOS DEL REPASO INTENSIVO PARA EL EXAMEN DE SUFICIENCIA</h3>
+<div class="grid lg:grid-cols-1 gap-6">
+        <div class="glass p-4 rounded border-l-4 border-red-500 text-sm space-y-1 lg:col-span-2 lg:max-w-xl lg:mx-auto">
+            <p class="text-white font-bold">Repaso Intensivo</p>
+            <p class="text-slate-300 text-xs">Inicio de clases: Miércoles 22 de julio de 2026</p>
+            <p class="text-slate-300 text-xs">Fin de clases: Sábado 01 de agosto de 2026</p>
+<p class="text-slate-400 text-xs">Horario 1: Lunes a sábados de 8:00 a.m. a 1:00 p.m.</p>
+            <p class="text-slate-300 text-xs">Plazo de inscripción: Hasta el viernes 17 de julio de 2026 a las 12:30 hrs.</p>
+                 </div>
+                 </div>
+      
+
+<!-- Nota importante -->
+<div class="bg-slate-900/60 p-4 rounded border border-slate-700 text-sm text-slate-200 space-y-2">
+  <div class="flex items-center gap-2 font-semibold">
+    <i data-lucide="info" class="w-4 h-4"></i>
+    <span>Nota importante:</span>
+  </div>
+  <p>La apertura de horarios está sujeta a la cantidad de inscritos en cada versión del programa.</p>
+</div>
+
+<div class="glass p-4 rounded border-l-4 border-red-500 text-sm space-y-1">
+            <p class="text-white font-bold">Proceso de Inscripción</p>
+            <ul class="text-slate-300 text-xs list-disc pl-4">
+                <li>Haber cancelado su 1era boleta académica.</li>
+            </ul>
+            <p class="text-slate-300 text-xs"><strong>INSCRIPCIÓN (PROGRAMA DE NIVELACIÓN) - (APELLIDOS Y NOMBRES DEL INGRESANTE),</strong> deberá firmar el <u>formato de inscripción</u>** respectivo y remitir a su asesor de inscripciones. En el caso de menores de edad el formato deberá estar firmado por el padre o apoderado registrado al momento de la inscripción para postular a la Universidad.</p>
+                </div>
+<!-- CONDICIONES -->
+<div class="bg-slate-900/60 p-4 rounded border border-slate-700 text-sm text-slate-200 space-y-2">
+  <p>*Los alumnos ingresantes que cuenten con la condición de prematriculados hasta el 20 de mayo podrán acceder a los cursos de nivelación en la PRE 2026-2 (ciclo regular, eligiendo un solo horario). Los alumnos prematriculados hasta el 27 de mayo podrán llevar los cursos en el ciclo intensivo de nivelación (intensivo 1 o 2, eligiendo uno y solamente uno). Quienes se prematriculen hasta el 26 de junio podrán llevar los cursos del ciclo intensivo 2. Y aquellos prematriculados hasta el 17 de julio podrán llevar el repaso intensivo de preparación para el examen de suficiencia del 05 de agosto. Las clases serán virtuales para los alumnos que radiquen en provincia o en el extranjero. La apertura de los horarios está sujeta a la cantidad de inscritos en cada versión del Programa de Nivelación Universitaria.</p>
+    <p>**Solicitar el enlace de inscripción a su asesor de inscripciones o asesor de ventas.</p>
+</div>
+    </div>`
+            },
+
+            // VIII. EXÁMENES DE SUFICIENCIA
+            VIII: {
+                title: "VIII. Exámenes de Suficiencia",
+                icon: "graduation-cap",
+                html: `
+    <div class="max-w-5xl mx-auto animate-[fadeIn_0.5s] space-y-8">
+
+      <h2 class="text-3xl text-white font-serif">
+        VIII. Exámenes de suficiencia: Matemática y Comunicación
+      </h2>
+
+      <!-- Beneficio -->
+      <div class="bg-gradient-to-r from-red-500 to-red-700 text-slate-50 p-6 rounded-xl shadow-lg">
+        <h3 class="font-bold text-2xl font-serif">Beneficio para prematriculados</h3>
+        <p class="font-bold text-lg">Rinden los exámenes sin costo (S/. 0)</p>
+      </div>
+
+      <!-- ¿Qué son? -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">¿Qué son los exámenes de suficiencia?</h3>
+        <p>
+          Con la finalidad de determinar qué áreas básicas necesitan reforzar, los alumnos ingresantes al
+ciclo de estudios 2026-2 rendirán un examen de suficiencia en Matemáticas y en Comunicaciones.
+Estas evaluaciones son presenciales y se realizan en el campus de la Universidad ESAN. Esta
+evaluación es obligatoria para todos los ingresantes que no hayan obtenido previamente la
+exoneración de la asignatura correspondiente mediante el Programa de Nivelación Universitaria u
+otro mecanismo previsto por la Universidad. La evaluación no tiene costo y se calificará como
+aprobada o desaprobada.
+</p>
+      </div>
+
+    <!-- FECHAS DE EXÁMENES DE SUFICIENCIA -->
+        <div class="glass p-6 rounded-xl mb-6 space-y-3 border-2 border-green-500/70">
+            <h3 class="text-white font-bold text-lg">CRONOGRAMA Y HORARIOS DE LOS EXÁMENES DE SUFICIENCIA</h3>
+            <p class="text-sm text-slate-300">
+                Los exámenes de suficiencia serán realizados de acuerdo con el siguiente cronograma:
+            </p>
+            <ul class="list-disc pl-6 text-sm text-slate-300 space-y-1">
+                <li>Miércoles 15 de julio de 2026 de 9:30 a.m. a 1:30 p.m.</li>
+                <li>Lunes 20 de julio de 2026 de 9:30 a.m. a 1:30 p.m.</li>
+                <li>Miércoles 05 de agosto de 2026 de 9:30 a.m. a 1:30 p.m.</li>
+            </ul>
+        </div>
+
+      <!-- Beneficios -->
+      <div class="glass p-6 rounded-xl space-y-3 border-2 border-blue-500/70">
+        <h3 class="text-white font-bold">Beneficios y Consideraciones Importantes</h3>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Los alumnos que se hayan matriculado en el Programa de Nivelación Universitaria y que hayan
+aprobado las asignaturas de Matemática y/o Comunicaciones no necesitan rendir el examen de
+suficiencia correspondiente a la asignatura aprobada.</li>
+          <li>Cada ingresante podrá rendir el examen de suficiencia hasta en dos oportunidades de las antes
+referidas. La Universidad comunicará oportunamente qué fechas corresponden a la primera y
+segunda oportunidad, así como los supuestos en que proceda la participación en cada una de
+ellas.</li>
+          <li>Los alumnos que aprueben el examen de suficiencia serán exonerados de la correspondiente
+asignatura o asignaturas del ciclo cero. En el caso que un alumno ingresante al ciclo de estudios
+2026-2 no se presente al examen, este será matriculado en el o los cursos correspondientes al
+ciclo cero, simultáneamente con las otras asignaturas correspondientes a su plan de estudios que no
+tengan dichos cursos como requisito.</li>
+            </ul>
+      </div>
+    </div>`
+            },
+
+            // IX. CURSOS DE EXTENSIÓN
+            IX: {
+                title: "IX. Cursos de Extensión",
+                icon: "plus-circle",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s] text-center pt-10">
+        <i data-lucide="plus-circle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+        <h2 class="text-3xl text-white font-serif mb-4">VIII. Cursos de extensión</h2>
+        <p class="text-slate-300 mb-3">
+            La Universidad ofrece una variedad de cursos de extensión (cursos adicionales) que puedes llevar durante tu carrera para
+            complementar tu formación académica.
+        </p>
+        <p class="text-slate-300 mb-3">
+            Estos cursos también están disponibles para tus familiares y puedes obtener descuentos en ellos.
+        </p>
+        <a href="https://www.ue.edu.pe/extended-learning" target="_blank"
+           class="inline-block mt-4 text-red-400 hover:underline text-sm">
+            Haz clic aquí para ver más información sobre los cursos de extensión
+        </a>
+    </div>`
+            },
+
+            // X. IDIOMA INGLÉS
+            X: {
+                title: "X. Idioma Inglés",
+                icon: "globe",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s] text-center pt-10">
+        <i data-lucide="globe" class="w-16 h-16 text-sky-500 mx-auto mb-4"></i>
+        <h2 class="text-3xl text-white font-serif mb-4">IX. Conocimiento del idioma inglés</h2>
+
+        <p class="text-slate-300 mb-3">
+            Dominar el inglés abre puertas a oportunidades de estudio y trabajo en el extranjero, así como a la colaboración con colegas de diferentes culturas y nacionalidades.
+        </p>
+        <p class="text-slate-300 mb-3">
+            Se debe tener en cuenta que en tu carrera se dictan cursos en idioma inglés, por lo que se necesitarás un nivel de conocimiento en este idioma.
+        </p>
+        <p class="text-slate-300 mb-3">
+            Para comprobar tu nivel actual puedes rendir el <strong>Examen Clasificatorio de inglés, sin costo, durante la semana de inducción.</strong>
+        </p>
+        <p class="text-slate-300 mb-3">
+           Asimismo, la Universidad ESAN cuenta con un Centro de Idiomas. De considerarlo, puedes pedir más información en el siguiente enlace: 
+            <a href="https://www.ue.edu.pe/centro-de-idiomas" target="_blank" class="text-red-400 hover:underline">
+                Ver más sobre idioma inglés
+            </a>.
+        </p>
+        <p class="text-xs text-slate-500 mt-2">
+            También puedes realizar consultas al siguiente correo:
+            <a href="mailto:matriculaidiomas@esan.edu.pe" class="text-red-400 hover:underline">matriculaidiomas@esan.edu.pe</a>
+        </p>
+    </div>`
+            },
+
+           // XI. RESERVA, RENUNCIA O RETIRO
+XI: {
+    title: "XI. Reserva, Renuncia o Retiro",
+    icon: "briefcase",
+    html: `
+<div class="max-w-5xl mx-auto animate-[fadeIn_0.5s]">
+    
+    <h2 class="text-3xl text-white font-serif mb-8">
+        XI. Postergación o término de los estudios de pregrado y reserva de admisión
+    </h2>
+
+    <div class="space-y-8">
+
+       <!-- Título agrupador -->
+<div class="bg-yellow-400/15 border-l-4 border-yellow-400 px-4 py-5 rounded-lg mb-6">
+
+    <h3 class="flex flex-wrap justify-center items-end text-white font-semibold gap-[2px]">
+
+        <span class="text-[20px] font-bold">I</span>
+        <span class="text-[16px] uppercase">NGRESANTES</span>
+
+        <span class="text-[20px] font-bold ml-2">NO</span>
+
+        <span class="text-[20px] font-bold ml-2">M</span>
+        <span class="text-[16px] uppercase">ATRICULADOS</span>
+
+        <span class="text-[16px] ml-1">(</span>
+
+        <span class="text-[20px] font-bold">S</span>
+        <span class="text-[16px] uppercase">IN</span>
+
+        <span class="text-[20px] font-bold ml-1">H</span>
+        <span class="text-[16px] uppercase">ORARIOS DE</span>
+
+        <span class="text-[20px] font-bold ml-1">C</span>
+        <span class="text-[16px] uppercase">LASES</span>
+
+        <span class="text-[20px]">)</span>
+
+    </h3>
+
+</div>
+
+
+        <!-- Reserva de admisión -->
+        <div class="space-y-3">
+
+            <div class="glass p-6 rounded-xl border-t-4 border-slate-600">
+
+                <h3 class="font-bold text-white text-lg mb-2">
+                    RESERVA DE ADMISIÓN
+                </h3>
+
+                <p class="text-sm text-slate-300 mb-2">
+                    El ingresante puede postergar el inicio de sus estudios hasta por
+                    <strong>dos periodos académicos consecutivos</strong> que equivalen a un año de reserva de su admisión.
+                </p>
+
+                <p class="text-sm text-slate-300 mb-2">
+                    Si el ingresante no registra su matrícula en uno de estos dos periodos, la reserva caduca y debe volver a postular para un siguiente periodo de admisión.
+                </p>
+
+                <p class="text-sm text-slate-300 mb-2">
+                    Para reservar su vacante, se requiere lo siguiente:
+                </p>
+
+                <ul class="list-disc pl-6 text-xs text-slate-300 space-y-1">
+                    <li>
+                        El pago de <strong>S/ 300.00 (Trescientos y 00/100 Soles)</strong>
+                        (no sujeto a devolución luego del registro correspondiente).
+                    </li>
+
+                    <li>
+                        Remitir los datos de nombre completo, DNI,
+                        datos del padre/madre o apoderado al correo:
+
+                        <a href="mailto:admisionpregrado_servicios@esan.edu.pe"
+                        class="text-red-400 hover:underline">
+
+                        admisionpregrado_servicios@esan.edu.pe
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Plazo resaltado -->
+                <div class="bg-yellow-400/20 border border-yellow-400 rounded-lg px-4 py-3 mt-5 flex items-center gap-3">
+
+                    <i data-lucide="arrow-right"
+                    class="w-5 h-5 text-yellow-300"></i>
+
+                    <p class="text-sm font-semibold text-yellow-100">
+                        Plazo límite para la recepción de solicitudes: viernes 7 de agosto de 2026 a las 12:00 p. m. (mediodía).
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded border border-slate-700 text-[11px] text-slate-200 flex gap-2">
+
+                <i data-lucide="info"
+                class="w-4 h-4 mt-0.5 text-slate-300"></i>
+
+                <p>
+                    <span class="font-semibold">
+                        Importante:
+                    </span>
+
+                    El alumno que se incorpora a su primera matrícula,
+                    luego de una Reserva de Admisión, deberá declarar conocer y aceptar
+                    las disposiciones vigentes del periodo y posibles actualizaciones
+                    en la malla curricular, costos, reglamento de estudios y otros que
+                    sean publicados en el portal de alumnos.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Renuncia -->
+        <div class="space-y-3">
+
+            <div class="glass p-6 rounded-xl border-t-4 border-slate-600">
+
+                <h3 class="font-bold text-white text-lg mb-2">
+                    RENUNCIA A LA VACANTE
+                </h3>
+
+                <p class="text-sm text-slate-300 mb-2">
+                    En el caso que desee retirarse definitivamente del proceso de admisión
+                    puede solicitar la renuncia a la vacante. Al renunciar a la vacante obtenida en una determinada carrera, pierde la misma y el derecho de matrícula para el período de admisión en curso.
+                </p>
+
+                <p class="text-sm text-slate-300 mb-2">
+
+                    Para ello deberá comunicarse al correo:
+
+                    <a href="mailto:admisionpregrado_servicios@esan.edu.pe"
+                    class="text-red-400 hover:underline">
+
+                    admisionpregrado_servicios@esan.edu.pe
+
+                    </a>
+
+                    solicitando la RENUNCIA DE VACANTE y detallar nombre completo del
+                    ingresante y número de DNI. Si el ingresante es menor de edad, el correo remitente debe ser del padre o apoderado del menor y puede ser copiado al correo del ingresante como referencia. La conformidad u observaciones al trámite serán enviadas al correo electrónico.
+                </p>
+
+                <!-- Plazo resaltado -->
+                <div class="bg-yellow-400/20 border border-yellow-400 rounded-lg px-4 py-3 mt-5 flex items-center gap-3">
+
+                    <i data-lucide="arrow-right"
+                    class="w-5 h-5 text-yellow-300"></i>
+
+                    <p class="text-sm font-semibold text-yellow-100">
+                        Plazo límite para la recepción de solicitudes: viernes 7 de agosto de 2026 a las 12:00 p. m. (mediodía).
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded border border-slate-700 text-[11px] text-slate-200 flex gap-2">
+
+                <i data-lucide="info"
+                class="w-4 h-4 mt-0.5 text-slate-300"></i>
+
+                <p>
+                    <span class="font-semibold">
+                        Importante:
+                    </span>
+
+                    El ingresante que ha renunciado a la vacante pierde la plaza asignada.
+                    Luego del registro de renuncia ya no es posible gestionar matrícula
+                    para el periodo vigente, pero puede registrarse como postulante para un nuevo periodo de admisión de acuerdo con el proceso que corresponda.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Título agrupador -->
+<div class="bg-yellow-400/15 border-l-4 border-yellow-400 px-4 py-5 rounded-lg mt-10 mb-6">
+
+    <h3 class="flex flex-wrap justify-center items-end text-white font-semibold gap-[2px]">
+
+        <span class="text-[20px] font-bold">I</span>
+        <span class="text-[16px] uppercase">NGRESANTES</span>
+
+        <span class="text-[20px] font-bold ml-2">M</span>
+        <span class="text-[16px] uppercase">ATRICULADOS</span>
+
+        <span class="text-[20px] ml-1">(</span>
+
+        <span class="text-[20px] font-bold">C</span>
+        <span class="text-[16px] uppercase">ON</span>
+
+        <span class="text-[20px] font-bold ml-1">H</span>
+        <span class="text-[16px] uppercase">ORARIOS DE</span>
+
+        <span class="text-[20px] font-bold ml-1">C</span>
+        <span class="text-[16px] uppercase">LASES</span>
+
+        <span class="text-[20px]">)</span>
+
+    </h3>
+
+</div>
+        <!-- Retiro definitivo -->
+        <div class="space-y-3">
+
+            <div class="glass p-6 rounded-xl border-t-4 border-slate-600">
+
+                <h3 class="font-bold text-white text-lg mb-2">
+
+                    RETIRO DEFINITIVO
+
+                </h3>
+
+                <p class="text-sm text-slate-300 mb-2">
+
+                    Si el alumno ya ha sido matriculado, cuenta con horario y decide
+                    retirarse definitivamente de la Universidad, debe comunicar su decisión
+                    al Área de Servicios Académicos mediante una carta en la que indique su retiro definitivo y la renuncia a su condición de alumno de la Universidad ESAN.
+
+                </p>
+
+                <p class="text-sm text-slate-300 mb-2">
+
+                    En ese caso deberá pagar hasta las boletas vencidas a la fecha
+                    de presentación de su solicitud de retiro definitivo.
+
+                </p>
+
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded border border-slate-700 text-[11px] text-slate-200 flex gap-2">
+
+                <i data-lucide="info"
+                class="w-4 h-4 mt-0.5 text-slate-300"></i>
+
+                <p>
+
+                    <span class="font-semibold">
+
+                        Importante:
+
+                    </span>
+
+                    No se aceptará la reincorporación de un alumno que haya solicitado
+                    su retiro definitivo; por lo que deberá rendir el examen de admisión como cualquier postulante nuevo.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>`
+},
+            // XII. CALENDARIO ACADÉMICO 2026-1
+            XII: {
+                title: "XII. Calendario Académico 2026-2",
+                icon: "calendar",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s] pb-10">
+        <h2 class="text-3xl text-white font-serif mb-6">XII. Calendario académico 2026-2</h2>
+
+        <div class="relative border-l border-slate-700 ml-4 space-y-6">
+
+            <!-- 1. Matrícula de alumnos ingresantes -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-red-500 rounded-full"></div>
+                <span class="text-red-400 font-mono text-base md:text-lg font-semibold">
+                    Miércoles 12 de agosto
+                </span>
+                <h3 class="text-white font-semibold text-lg">Matrícula de alumnos ingresantes</h3>
+            </div>
+
+            <!-- 2. Inducción de estudiantes nuevos -->
+            <div class="relative pl-8">
+                <div class="bg-slate-900 p-4 rounded border border-red-500/30 ml-[-10px]">
+                    <span class="text-red-400 font-mono text-xs md:text-sm">
+                        Del 10 al 14 de agosto
+                    </span>
+                    <h3 class="text-white font-semibold text-lg">Inducción de estudiantes nuevos</h3>
+                    <p class="text-xs text-slate-400">
+                        Semana de bienvenida, charlas informativas y entrega de horarios.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. Inicio de clases -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-orange-500 rounded-full"></div>
+                <span class="text-orange-400 font-mono text-base md:text-lg font-semibold">
+                    Lunes 17 de agosto
+                </span>
+                <h3 class="text-white font-semibold text-lg">Inicio de clases</h3>
+            </div>
+
+            <!-- 4. Feriados del periodo (2) -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <span class="text-yellow-400 font-mono text-base md:text-lg font-semibold">
+                    6 de agosto, 8 de octubre, 8 y 9 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Feriados del periodo <sup>(2)</sup></h3>
+                <p class="text-xs text-slate-400">
+                    Jueves 6 de agosto (Batalla de Junín)<br>
+                    Jueves 8 de octubre (Combate de Angamos)<br>
+                    Martes 8 de diciembre (Inmaculada Concepción)<br>
+                    Miércoles 9 de diciembre (Batalla de Ayacucho)
+                </p>
+            </div>
+
+            <!-- 5. Plazo límite para retiro de curso -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-pink-500 rounded-full"></div>
+                <span class="text-pink-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 23 de octubre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Plazo límite para retiro de curso</h3>
+                <p class="text-xs text-slate-400">Hasta las 12:00 hrs.</p>
+            </div>
+
+            <!-- 6. Fecha límite para solicitud de cambio de carrera -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-purple-500 rounded-full"></div>
+                <span class="text-purple-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 20 de noviembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">
+                    Fecha límite para presentar la solicitud de cambio de carrera
+                </h3>
+                <p class="text-xs text-slate-400">Hasta las 12:00 hrs.</p>
+            </div>
+
+            <!-- 7. Plazo límite para retiro de ciclo -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-pink-500 rounded-full"></div>
+                <span class="text-pink-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 27 de noviembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Plazo límite para retiro de ciclo</h3>
+                <p class="text-xs text-slate-400">Hasta las 17:00 hrs.</p>
+            </div>
+
+            <!-- 8. Último día de clases -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-red-500 rounded-full"></div>
+                <span class="text-red-400 font-mono text-base md:text-lg font-semibold">
+                    Sábado 28 de noviembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Último día de clases</h3>
+            </div>
+
+             <!-- 9. Semana de evaluaciones finales (3) -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-emerald-500 rounded-full"></div>
+                <span class="text-emerald-400 font-mono text-base md:text-lg font-semibold">
+                    Del 30 de noviembre al 5 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Semana de evaluaciones finales <sup>(3)</sup></h3>
+            </div>
+
+            <!-- 10. Evaluaciones de rezagados (4) -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-emerald-500 rounded-full"></div>
+                <span class="text-emerald-400 font-mono text-base md:text-lg font-semibold">
+                    7 y 10 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Evaluaciones de rezagados <sup>(4)</sup></h3>
+                <p class="text-xs text-slate-400">
+                    Según horarios programados y publicados en la UE virtual
+                </p>
+            </div>
+
+            <!-- 11. Devolución de evaluaciones finales -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-sky-500 rounded-full"></div>
+                <span class="text-sky-400 font-mono text-base md:text-lg font-semibold">
+                    Del 10 al 11 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Devolución de evaluaciones finales</h3>
+                <p class="text-xs text-slate-400">
+                    Según horarios programados y publicados en la UE virtual
+                </p>
+            </div>
+
+            <!-- 11. Devolución de evaluaciones de rezagados -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-sky-500 rounded-full"></div>
+                <span class="text-sky-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 11 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">Devolución de evaluaciones de rezagados</h3>
+            </div>
+
+            <!-- 12. Publicación de primera revisión de evaluación final y evaluaciones de rezagados (5) -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span class="text-blue-400 font-mono text-base md:text-lg font-semibold">
+                    Martes 15 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">
+                    Publicación de primera revisión de evaluación final y evaluaciones de rezagados <sup>(5)</sup>
+                </h3>
+            </div>
+
+            <!-- 13. Plazo para la presentación de solicitudes de segunda revisión de evaluación final y evaluaciones de rezagados -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span class="text-blue-400 font-mono text-base md:text-lg font-semibold">
+                    Miércoles 16 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">
+                    Plazo para la presentación de solicitudes de segunda revisión de evaluación final y evaluaciones de rezagados
+                </h3>
+                <p class="text-xs text-slate-400">
+                    A partir de las 09:00 hrs hasta las 18:00 hrs.
+                </p>
+            </div>
+
+            <!-- 14. Publicación de segunda revisión de evaluación final y evaluaciones de rezagados -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span class="text-blue-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 18 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">
+                    Publicación de segunda revisión de evaluación final y evaluaciones de rezagados
+                </h3>
+<p class="text-xs text-slate-400">
+                    A partir de las 20:00 hrs.
+                </p>
+
+            </div>
+
+            <!-- 15. Cierre de actas -->
+            <div class="relative pl-8">
+                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-red-500 rounded-full"></div>
+                <span class="text-red-400 font-mono text-base md:text-lg font-semibold">
+                    Viernes 18 de diciembre
+                </span>
+                <h3 class="text-white font-semibold text-lg">
+                    Cierre de actas del periodo 2026-1 <sup>(6)</sup>
+                </h3>
+            </div>
+
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded border border-slate-700 text-xs text-slate-300 space-y-1 mt-8">
+            <p>(2) Durante los feriados del periodo se suspenden todas las actividades académicas y de complemento curricular.</p>
+            <p>(3) Durante la semana de evaluaciones finales se suspenden las clases.</p>
+            <p>(4) Sólo para aquellos alumnos que reciban la confirmación de autorización para la evaluación de rezagados.</p>
+            <p>(5) Las solicitudes de primer y segundo reclamo se presentan de acuerdo con el procedimiento establecido por la oficina de Servicios Académicos. No se aceptan solicitudes fuera de la fecha.</p>
+            <p>(6) Se suspende la atención a alumnos desde el 21 de diciembre al 03 de enero de 2027.</p>
+        </div>
+    </div>`
+            },
+
+            // XIII. DISPOSICIONES FINALES
+            XIII: {
+    title: "XIII. Disposiciones Finales",
+    icon: "file-text",
+    html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">
+            XIII. Disposiciones Finales
+        </h2>
+
+        <div class="glass p-6 rounded border-2 border-red-500/70">
+            <ol class="list-decimal list-inside space-y-4 text-slate-300 leading-relaxed">
+                <li>
+                    La Universidad podrá actualizar las direcciones electrónicas,
+                    procedimientos, cronogramas y canales de atención señalados en el
+                    presente documento. Cualquier modificación será comunicada a través
+                    de los canales institucionales correspondientes.
+                </li>
+
+                <li>
+                    La información contenida en el presente documento tiene carácter
+                    informativo y complementario. En caso de discrepancia entre lo
+                    señalado en este documento y las disposiciones contenidas en el
+                    Reglamento General de Estudios, Reglamento de Admisión,
+                    reglamentos especiales, directivas institucionales o cualquier otra
+                    normativa vigente de la Universidad ESAN, prevalecerán estas
+                    últimas, así como las disposiciones legales aplicables.
+                </li>
+            </ol>
+        </div>
+    </div>`
+},
+       
+            // XIV. DIRECTORIO
+            XIV: {
+                title: "XIV. Directorio",
+                icon: "phone",
+                html: `
+    <div class="max-w-4xl mx-auto animate-[fadeIn_0.5s]">
+        <h2 class="text-3xl text-white font-serif mb-6">XIV. Directorio</h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="glass p-4 rounded border-2 border-red-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-red-400">
+                    <i data-lucide="wallet"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Oficina de Finanzas</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:finanzaspregrado@ue.edu.pe" class="text-red-400 hover:underline">
+                            finanzaspregrado@ue.edu.pe
+                        </a>
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-1">
+                        Teléfono: 317 7200 Opción 1 y luego opción 3
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded border-2 border-blue-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-blue-400">
+                    <i data-lucide="book"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Oficina de Servicios Académicos</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:ssacad@ue.edu.pe" class="text-red-400 hover:underline">
+                            ssacad@ue.edu.pe
+                        </a>
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-1">
+                        Teléfono: 317 7200 anexos 44203, 44204
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded border-2 border-purple-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-purple-400">
+                    <i data-lucide="globe"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Centro de Idiomas</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:matriculaidiomas@esan.edu.pe" class="text-red-400 hover:underline">
+                            matriculaidiomas@esan.edu.pe
+                        </a>
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-1">
+                        Teléfono: 317 7200 anexo 44874
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded border-2 border-emerald-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-emerald-400">
+                    <i data-lucide="school"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Centro Preuniversitario</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:pre_uesan@esan.edu.pe" class="text-red-400 hover:underline">
+                            pre_uesan@esan.edu.pe
+                        </a>
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-1">
+                        Teléfono: 317 7200 anexo 44268
+                    </p>
+                </div>
+            </div>
+            
+            <div class="glass p-4 rounded border-2 border-yellow-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-yellow-500">
+                    <i data-lucide="wallet"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Permanencia Estudiantil</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:esaningresantes@esan.edu.pe" class="text-red-400 hover:underline">
+                            esaningresantes@esan.edu.pe
+                        </a>
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-1">
+                        ESCRIBIR al WhatsApp: +51 975036407
+                    </p>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                        Horario de Atención: Lunes a viernes de 8:00 am - 5:00 pm
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded border-2 border-pink-500/70 flex items-start gap-4">
+                <div class="bg-slate-900 p-3 rounded text-pink-500">
+                    <i data-lucide="wallet"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Dimensión Internacional</h4>
+                    <p class="text-xs text-slate-300">
+                        Correo: 
+                        <a href="mailto:exchange@esan.edu.pe" class="text-red-400 hover:underline">
+                            exchange@esan.edu.pe
+                        </a>
+                    </p>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                        Horario de Atención: Lunes a viernes de 9:00 am - 6:00 pm
+                    </p>
+                    <p class="text-[11px] text-slate-400 mt-2">
+                        Para mayor información, ingrese a:
+                   </p>
+
+                    <a
+                    href="https://www.ue.edu.pe/pregrado/internacional"
+                    target="_blank"
+                    class="text-red-400 text-xs hover:underline break-all">
+            
+                        www.ue.edu.pe/pregrado/internacional
+                    </a>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <p class="text-center text-xs text-slate-500 mt-8">
+            Central telefónica ESAN University: 317 7200
+        </p>
+    </div>`
+            }
+        };
+            
+
+        // NAVEGACIÓN LATERAL
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            const keys = Object.keys(db).filter(k => k !== 'welcome');
+            container.innerHTML = keys.map(key => `
+                <button onclick="renderContent('${key}')" id="btn-${key}" class="w-full text-left px-6 py-3 text-slate-300 text-[13px] font-semibold tracking-wide hover:text-white hover:bg-slate-900 transition flex items-center gap-3">
+                    <i data-lucide="${db[key].icon}" class="w-4 h-4"></i> ${db[key].title}
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // MOSTRAR CONTENIDO
+        function renderContent(key) {
+            const viewer = document.getElementById('viewer');
+            viewer.innerHTML = db[key].html;
+
+            document.querySelectorAll('#menu-container button').forEach(b => b.classList.remove('active-tab'));
+            const btn = document.getElementById(`btn-${key}`);
+            if (btn) btn.classList.add('active-tab');
+
+            lucide.createIcons();
+            // CERRAR MENÚ EN CELULAR
+if (window.innerWidth < 768) {
+    document.getElementById('sidebar')
+        .classList.add('-translate-x-full');
+}
+            viewer.scrollTop = 0;
+        }
+//ABRIR / CERRAR MENÚ
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('-translate-x-full');
+}
+
+        
+        // BUSCADOR RÁPIDO
+        
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search').addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase().trim();
+    if (val.length < 3) return;
+
+    const searchMap = [
+      { target: 'I', keywords: ['matr', 'ingresant'] },
+      { target: 'II', keywords: ['escala', 'crédit', 'pago', 'pension'] },
+      { target: 'III', keywords: ['boleta', 'medios de pago', 'yape', 'bcp', 'bbva', 'visa'] },
+      { target: 'IV', keywords: ['descuento', 'beneficio', 'herman', 'familia', 'pronto pago'] },
+      { target: 'V', keywords: ['convalid', 'traslado', 'bachillerato'] },
+      { target: 'VI', keywords: ['ciclo 0', 'ciclo cero', 'preform', 'pre-form', 'curso cero'] },
+      { target: 'VII', keywords: ['nivelacion', 'nivelación', 'pnu', 'nivelacion universitaria'] },
+      { target: 'VIII', keywords: ['suficiencia', 'examen', 'exámenes', 'examenes'] },
+      { target: 'IX', keywords: ['extensión', 'extension', 'extended learning', 'curso extra'] },
+      { target: 'X', keywords: ['inglés', 'ingles', 'idioma'] },
+      { target: 'XI', keywords: ['reserva', 'renuncia', 'retiro'] },
+      { target: 'XII', keywords: ['calendario', 'fechas', 'cronograma'] },
+      { target: 'XIII', keywords: ['disposiciones', 'finales', 'reglamento', 'legal'] },
+        { target: 'XIV', keywords: ['directorio', 'contacto', 'teléfono', 'telefono'] }
+    ];
+
+    for (const item of searchMap) {
+      if (item.keywords.some(k => val.includes(k))) {
+        renderContent(item.target);
+        break;
+      }
+    }
+  });
+});
+
+        window.onload = function () {
+    const dniGuardado = localStorage.getItem("dni");
+
+    if (dniGuardado) {
+        entrarDirecto();
+    }
+};
+
+function ingresar() {
+    const dni = document.getElementById("dni").value.trim();
+    const check = document.getElementById("check").checked;
+    const error = document.getElementById("error");
+
+    if (!/^\d{8}$/.test(dni)) {
+        error.innerText = "Ingresa un DNI válido (8 dígitos)";
+        error.classList.remove("hidden");
+        return;
+    }
+
+    if (!check) {
+        error.innerText = "Debes aceptar el compromiso";
+        error.classList.remove("hidden");
+        return;
+    }
+
+    sessionStorage.setItem("dni", dni);
+
+    entrarDirecto();
+}
+
+function entrarDirecto() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("app").classList.remove("opacity-0");
+}
+
+
+        // INICIO
+        renderMenu();
+        renderContent('welcome');
+        
+    </script>
+</body>
+</html>
