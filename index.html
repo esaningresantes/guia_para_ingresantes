@@ -5264,7 +5264,7 @@ XIII: {
             <div>
 
                 <h3 class="text-2xl font-serif text-gray-900">
-                    Disposiciones generales
+                    <strong>Disposiciones generales</strong>
                 </h3>
 
                 <p class="text-gray-600 text-sm">
@@ -5653,6 +5653,11 @@ XIV: {
             const viewer = document.getElementById('viewer');
             viewer.innerHTML = db[key].html;
 
+			 // Cambiar URL según sección
+    if (rutas[key]) {
+        history.replaceState(null, "", "#" + rutas[key]);
+    }
+
             document.querySelectorAll('#menu-container button').forEach(b => b.classList.remove('active-tab'));
             const btn = document.getElementById(`btn-${key}`);
             if (btn) btn.classList.add('active-tab');
@@ -5731,10 +5736,55 @@ function entrarDirecto() {
     document.getElementById("app").classList.remove("opacity-0");
 }
 
+	// RUTAS AMIGABLES PARA ENLACES
+const rutas = {
+
+    welcome: "inicio",
+
+    I: "matricula",
+    II: "escalas-pago",
+    III: "cobros-academicos",
+    IV: "descuentos-beneficios",
+    V: "convalidaciones",
+    VI: "ciclo-0",
+    VII: "nivelacion-universitaria",
+    VIII: "examen-suficiencia",
+    IX: "cursos-extension",
+    X: "idioma-ingles",
+    XI: "reserva-renuncia-retiro",
+    XII: "calendario-academico",
+
+    XIII: "disposiciones-finales",
+    XIV: "directorio"
+
+};
+
+
+// Crear relación inversa
+const rutasInversas = {};
+
+Object.keys(rutas).forEach(key => {
+    rutasInversas[rutas[key]] = key;
+});
 
         // INICIO
-        renderMenu();
-        renderContent('welcome');
+renderMenu();
+
+
+const hash = window.location.hash.replace("#","");
+
+
+const seccion = rutasInversas[hash];
+
+
+if (seccion && db[seccion]) {
+
+    renderContent(seccion);
+
+} else {
+
+    renderContent('welcome');
+}
         
     </script>
 </body>
