@@ -5849,6 +5849,8 @@ if (sectionKeys.length === 0) {
     applyRestrictedView();
     renderContent('welcome');
 } else {
+	// Enlace directo desde SharePoint: saltamos el compromiso y vamos directo a la sección
+    entrarDirecto();
     renderMenu();
     applyRestrictedView();
     renderSection(sectionKeys[0]);
